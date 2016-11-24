@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.sf.whatsappbook</groupId>
+  <artifactId>pdf-writer</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>pdf-writer</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+    
+    <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+	<dependency>
+	    <groupId>net.sf.jasperreports</groupId>
+	    <artifactId>jasperreports</artifactId>
+	    <version>5.1.0</version>
+	</dependency>
+    
+  </dependencies>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>com.alexnederlof</groupId>
+            <artifactId>jasperreports-plugin</artifactId>
+            <version>2.0</version>
+            <executions>
+                <execution>
+                    <phase>process-sources</phase>
+                    <goals>
+                            <goal>jasper</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <!-- These are the default configurations: -->
+                <compiler>net.sf.jasperreports.engine.design.JRJdtCompiler</compiler>
+                <sourceDirectory>src/main/jasperreports</sourceDirectory>
+                <outputDirectory>${project.build.directory}/jasper</outputDirectory>
+                <outputFileExt>.jasper</outputFileExt>
+                <xmlValidation>true</xmlValidation>
+                <verbose>false</verbose>
+                <numberOfThreads>4</numberOfThreads>
+                <failOnMissingSourceDirectory>true</failOnMissingSourceDirectory>
+                <sourceScanner>org.codehaus.plexus.compiler.util.scan.StaleSourceScanner</sourceScanner>
+            </configuration>
+        </plugin>
+      
+        <plugin>
+           <groupId>org.codehaus.mojo</groupId>
+           <artifactId>exec-maven-plugin</artifactId>
+           <version>1.2.1</version>
+           <configuration>
+               <mainClass>de.sf.whatsappbook.App</mainClass>
+               <arguments>
+               	 <argument>./target/WhatsappBook.pdf</argument>
+               </arguments>
+           </configuration>
+       </plugin>
+        
+    </plugins>
+  </build>
+  
+  
+</project>
